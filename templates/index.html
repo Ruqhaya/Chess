@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CheckMate</title>
+    <!-- <link rel="stylesheet" href="static\styles.css"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <div class="first-container">
+            <h1 class="title">CheckMate</h1>
+            <div class="options">
+                <h1>Choose Mode To Play:</h1>
+                <div class="btn1">
+                    <a href="{{ url_for('vs1') }}" class="QRCODE" onclick="startGame('1vs1')">1 vs 1</a>
+                    <span></span>
+                </div>
+                <div class="btn2">
+                    <a href="{{ url_for('vsbot') }}" class="QRCODE" id="vsbot" onclick="startGame('1vsbot')">1 vs Bot</a>
+                     <!-- <button class="QRCODE" id="vsbot" onclick="showdiv()">1 VS BOT</button> -->
+                    <span></span>
+                </div>
+                <div id="game-over-message" class="hidden">
+                    <div class="easy">
+                        <a href="{{ url_for('vsbot') }}" class="QRCODE" onclick="startGame('1vsbot')">Easy</a>
+                        <span></span>
+                    </div>
+                    <div class="hard">
+                        <a href="{{ url_for('vsbot') }}" class="QRCODE" onclick="startGame('1vsbot')">Hard</a>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="second-container">
+            <div class="chessboard">
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    function startGame(gameMode) {
+        const gameId = generateUniqueId();  // Generate a unique ID for the game
+
+        fetch('/start_game', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ game_id: gameId }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'game started') {
+                    console.log('Game started:', data.game_id);
+                    // Redirect to the game mode page with the game_id as a query parameter
+                    if (gameMode === '1vs1') {
+                        window.location.href = `/1vs1?game_id=${gameId}`;
+                    } else if (gameMode === '1vsbot') {
+                        window.location.href = `/1vsbot?game_id=${gameId}`;
+                    }
+                } else {
+                    alert('Error starting game');
+                }
+            });
+    }
+
+    function generateUniqueId() {
+        return '_' + Math.random().toString(36).substr(2, 9);
+    }
+    function showdiv(){
+        document.getElementById('game-over-message').classList.remove('hidden');
+    }
+</script>
+
+</html>

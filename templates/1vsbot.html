@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1VSBOT</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+
+<body>
+    <div class="heading">
+        <h1>1VSBOT</h1>
+    </div>
+    <div id="chessboard">
+        <div class="board-related">
+            <div id="white-captured" class="captured-container">
+                <h3>White's Captured Pieces</h3>
+                <div id="white-captured-pieces"></div>
+            </div>
+            <div class="board">
+            </div>
+            <div id="black-captured" class="captured-container">
+                <h3>Black's Captured Pieces</h3>
+                <div id="black-captured-pieces"></div>
+            </div>
+        </div>
+        <div class="description">
+            <div class="visible">
+                <div class="turn" id="turn"></div>
+                <div class="functions">
+                    <button id="undoButton" onclick="undoMove()"><i
+                            class="bi bi-arrow-counterclockwise bi-lg"></i></button>
+                    <button id="resetGame" onclick="restartGame()">Restart</button>
+                </div>
+            </div>
+            <div id="game-over-message" class="hidden">
+                <h2 id="message-text"></h2>
+                <button id="resetGame" onclick="restartGame()">Play Again</button>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='sscript1.js') }}"></script>
+</body>
+
+</html>
